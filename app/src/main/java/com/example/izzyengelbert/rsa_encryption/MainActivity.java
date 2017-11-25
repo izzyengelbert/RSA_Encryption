@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // Encode the original data with RSA private key
         byte[] encodedBytes = null;
         try {
-            Cipher c = Cipher.getInstance("RSA");
+            Cipher c = Cipher.getInstance("RSA/ECB/OAEPPadding");
             c.init(Cipher.ENCRYPT_MODE, privateKey);
             encodedBytes = c.doFinal(theTestText.getBytes());
         } catch (Exception e) {
@@ -56,21 +56,22 @@ public class MainActivity extends AppCompatActivity {
         TextView tvdecoded = (TextView) findViewById(R.id.tvdecoded);
         byte[] decodedBytes = null;
         try {
-            Cipher c = Cipher.getInstance("RSA");
+            Cipher c = Cipher.getInstance("RSA/ECB/OAEPPadding");
             c.init(Cipher.DECRYPT_MODE, publicKey);
             decodedBytes = c.doFinal(encodedBytes);
         } catch (Exception e) {
             Log.e(TAG, "RSA decryption error");
         }
-        //String temp = new String(decodedBytes);
-        //tvdecoded.setText("[ENCODED]:\n" + temp +"\n");
+        String temp = new String(decodedBytes);
+        tvdecoded.setText("[ENCODED]:\n" + temp +"\n");
 
-        String tes = "testest";
+        /*String tes = "testest";
         byte[] bytes = tes.getBytes();
         String tes1 = "";
-        for(Byte b:bytes){
-            tes1 += b.toString()+" ";
+        for(int i=0;i<bytes.length;++i){
+            //String temp = new String(bytes[i]);
+            tes1 += bytes[i]+" ";
         }
-        tvdecoded.setText(tes1);
+        tvdecoded.setText(tes1);*/
     }
 }
